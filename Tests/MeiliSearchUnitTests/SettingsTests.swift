@@ -95,11 +95,11 @@ class SettingsTests: XCTestCase {
         // Start the test with the mocked server
 
         let UID: String = "movies"
-        let setting: Setting = buildStubSetting(from: json)
+        let updateSetting: UpdateSetting = UpdateSetting(setting: buildStubSetting(from: json))
 
         let expectation = XCTestExpectation(description: "Update settings")
 
-        self.client.updateSetting(UID: UID, setting) { result in
+        self.client.updateSetting(UID: UID, updateSetting) { result in
             switch result {
             case .success(let update):
                 XCTAssertEqual(stubUpdate, update)

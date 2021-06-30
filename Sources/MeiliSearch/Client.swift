@@ -418,7 +418,7 @@ public struct MeiliSearch {
      */
     public func updateSetting(
         UID: String,
-        _ setting: Setting,
+        _ setting: UpdateSetting,
         _ completion: @escaping (Result<Update, Swift.Error>) -> Void) {
         self.settings.update(UID, setting, completion)
     }
