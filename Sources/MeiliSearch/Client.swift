@@ -373,6 +373,28 @@ public struct MeiliSearch {
     self.updates.getAll(UID, completion)
   }
 
+  /**
+    Wait for an update to be processed or failed.
+
+    Providing an update id, returned by asynchronous MeiliSearch options, call are made
+    to MeiliSearch to check if the update has been processed or if it has failed.
+
+    - parameter UID:                 The unique identifier of the `Index`.
+    - parameter updateId:            The id of the update.
+    - parameter: options             Optionnal configuration for timeout and interval
+    - parameter completion:          The completion closure used to notify when the server
+  **/
+
+  public func waitForPendingUpdate(
+    UID: String,
+    update: Update,
+    options: WaitOptions? = nil,
+    _ completion: @escaping (Result<Update.Result, Swift.Error>
+  ) -> Void) {
+    print("et merde")
+    self.updates.waitForPendingUpdate(UID, update, options, completion)
+  }
+
   // MARK: Keys
 
   /**
@@ -867,5 +889,4 @@ public struct MeiliSearch {
     _ completion: @escaping (Result<Dump, Swift.Error>) -> Void) {
     self.dumps.status(UID, completion)
   }
-
 }
