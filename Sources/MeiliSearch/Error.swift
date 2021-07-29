@@ -68,6 +68,8 @@ public extension MeiliSearch {
     /// The input or output JSON is invalid.
     case invalidJSON
 
+    // TimeOut is reached in a waiting function
+    case timeOut(timeOut: Double)
     // URL is invalid
     case invalidURL(url: String? = "")
 
@@ -88,6 +90,8 @@ public extension MeiliSearch {
         return "Response decoding failed"
       case .invalidJSON:
         return "Invalid json"
+      case .timeOut(let timeOut):
+        return "TimeOut of \(timeOut) is reached"
       case .invalidURL(let url):
         if let strUrl: String = url {
           return "Invalid URL: \(strUrl)"

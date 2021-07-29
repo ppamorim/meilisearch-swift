@@ -11,6 +11,9 @@ public struct Update: Codable, Equatable {
   /// The UID of the update.
   public let updateId: Int
 
+  public init(updateId: Int) {
+    self.updateId = updateId
+  }
   /// Result type for the Update.
   public struct Result: Codable, Equatable {
 

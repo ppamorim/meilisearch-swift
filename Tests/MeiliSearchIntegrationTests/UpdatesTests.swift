@@ -24,6 +24,17 @@ private struct Movie: Codable, Equatable {
 
 }
 
+private let movies: [Movie] = [
+  Movie(id: 123, title: "Pride and Prejudice", comment: "A great book"),
+  Movie(id: 456, title: "Le Petit Prince", comment: "A french book"),
+  Movie(id: 2, title: "Le Rouge et le Noir", comment: "Another french book"),
+  Movie(id: 1, title: "Alice In Wonderland", comment: "A weird book"),
+  Movie(id: 1344, title: "The Hobbit", comment: "An awesome book"),
+  Movie(id: 4, title: "Harry Potter and the Half-Blood Prince", comment: "The best book"),
+  Movie(id: 42, title: "The Hitchhiker's Guide to the Galaxy"),
+  Movie(id: 1844, title: "A Moreninha", comment: "A Book from Joaquim Manuel de Macedo")
+]
+
 class UpdatesTests: XCTestCase {
 
   private var client: MeiliSearch!
@@ -63,12 +74,11 @@ class UpdatesTests: XCTestCase {
     let documents: Data = try! JSONEncoder().encode([movie])
 
     self.client.addDocuments(UID: self.uid, documents: documents, primaryKey: nil) { result in
-
       switch result {
       case .success(let update):
-
+        print("YOUHOU")
+        print(update)
         self.client.getUpdate(UID: self.uid, update) { (result: Result<Update.Result, Swift.Error>)  in
-
           switch result {
           case .success(let update):
             XCTAssertEqual("DocumentsAddition", update.type.name)
@@ -78,9 +88,7 @@ class UpdatesTests: XCTestCase {
             XCTFail()
           }
           expectation.fulfill()
-
         }
-
       case .failure:
         XCTFail("Failed to update movie index")
       }
@@ -103,7 +111,6 @@ class UpdatesTests: XCTestCase {
     }
 
     self.client.getAllUpdates(UID: self.uid) { (result: Result<[Update.Result], Swift.Error>)  in
-
       switch result {
       case .success(let updates):
         updates.forEach { (update: Update.Result) in
@@ -118,11 +125,51 @@ class UpdatesTests: XCTestCase {
       expectation.fulfill()
 
     }
-
     self.wait(for: [expectation], timeout: 10.0)
 
   }
 
+  func testWaitForPendingUpdateSuccessDefault () {
+    let expectation = XCTestExpectation(description: "Wait for pending update with default options")
+
+    self.client.addDocuments(
+      UID: self.uid,
+      documents: movies,
+      primaryKey: nil
+    ) { result in
+
+      switch result {
+      case .success(let update):
+        XCTAssertEqual(Update(updateId: 0), update)
+        self.client.waitForPendingUpdate(UID: self.uid, update: update) { result in
+          switch result {
+          case .success(let update):
+            XCTAssertEqual(update.status, Update.Status.processed)
+          case .failure(let error):
+            XCTFail(error.localizedDescription)
+          }
+          expectation.fulfill()
+
+        }
+      case .failure(let error):
+        print(error)
+        XCTFail()
+      }
+    }
+    self.wait(for: [expectation], timeout: 5.0)
+  }
+
+  func testWaitForPendingUpdateSuccessEmptyOptions () {
+
+  }
+
+  func testWaitForPendingUpdateSuccessWithOptions () {
+
+  }
+
+  func testWaitForPendingUpdateFailure () {
+
+  }
 }
 // swiftlint:enable force_unwrapping
 // swiftlint:enable force_try
