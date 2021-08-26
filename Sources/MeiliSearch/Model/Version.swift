@@ -11,7 +11,7 @@ public struct Version: Codable, Equatable {
   public let commitSha: String
 
   /// Date when the server was compiled.
-  public let buildDate: Date
+  public let commitDate: Date
 
   /// Package version, human readable, overly documented.
   public let pkgVersion: String

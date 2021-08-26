@@ -23,7 +23,7 @@ class StatsTests: XCTestCase {
       {
         "numberOfDocuments": 19654,
         "isIndexing": false,
-        "fieldsFrequency": {
+        "fieldDistribution": {
           "poster": 19654,
           "release_date": 19654,
           "title": 19654,
@@ -71,7 +71,7 @@ class StatsTests: XCTestCase {
           "movies": {
             "numberOfDocuments": 19654,
             "isIndexing": false,
-            "fieldsFrequency": {
+            "fieldDistribution": {
               "poster": 19654,
               "overview": 19654,
               "title": 19654,
@@ -82,7 +82,7 @@ class StatsTests: XCTestCase {
           "rangemovies": {
             "numberOfDocuments": 19654,
             "isIndexing": false,
-            "fieldsFrequency": {
+            "fieldDistribution": {
               "overview": 19654,
               "id": 19654,
               "title": 19654

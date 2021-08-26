@@ -19,7 +19,7 @@ struct Settings {
 
   func get(
     _ UID: String,
-    _ completion: @escaping (Result<Setting, Swift.Error>) -> Void) {
+    _ completion: @escaping (Result<SettingResult, Swift.Error>) -> Void) {
 
     self.request.get(api: "/indexes/\(UID)/settings") { result in
 
@@ -32,7 +32,7 @@ struct Settings {
         }
 
         do {
-          let settings: Setting = try Constants.customJSONDecoder.decode(Setting.self, from: data)
+          let settings: SettingResult = try Constants.customJSONDecoder.decode(SettingResult.self, from: data)
           completion(.success(settings))
         } catch {
           completion(.failure(error))
@@ -140,12 +140,13 @@ struct Settings {
 
   func updateSynonyms(
     _ UID: String,
-    _ synonyms: [String: [String]],
+    _ synonyms: [String: [String]]? = [:],
     _ completion: @escaping (Result<Update, Swift.Error>) -> Void) {
 
     let data: Data
     do {
-      data = try JSONSerialization.data(withJSONObject: synonyms, options: [])
+      // data = try JSONSerialization.data(withJSONObject: synonyms, options: [])
+      data = try JSONEncoder().encode(synonyms)
     } catch {
       completion(.failure(error))
       return
@@ -233,12 +234,12 @@ struct Settings {
 
   func updateStopWords(
     _ UID: String,
-    _ synonyms: [String],
+    _ stopWords: [String]? = [],
     _ completion: @escaping (Result<Update, Swift.Error>) -> Void) {
 
     let data: Data
     do {
-      data = try JSONSerialization.data(withJSONObject: synonyms, options: [])
+      data = try JSONEncoder().encode(stopWords)
     } catch {
       completion(.failure(error))
       return
@@ -672,13 +673,13 @@ struct Settings {
 
   }
 
-  // MARK: Attributes for faceting
+  // MARK: Filterable Attributes
 
-  func getAttributesForFaceting(
+  func getFilterableAttributes(
     _ UID: String,
     _ completion: @escaping (Result<[String], Swift.Error>) -> Void) {
 
-    self.request.get(api: "/indexes/\(UID)/settings/attributes-for-faceting") { result in
+    self.request.get(api: "/indexes/\(UID)/settings/filterable-attributes") { result in
 
       switch result {
       case .success(let data):
@@ -703,7 +704,7 @@ struct Settings {
 
   }
 
-  func updateAttributesForFaceting(
+  func updateFilterableAttributes(
     _ UID: String,
     _ attributes: [String],
     _ completion: @escaping (Result<Update, Swift.Error>) -> Void) {
@@ -716,7 +717,7 @@ struct Settings {
       return
     }
 
-    self.request.post(api: "/indexes/\(UID)/settings/attributes-for-faceting", data) { result in
+    self.request.post(api: "/indexes/\(UID)/settings/filterable-attributes", data) { result in
 
       switch result {
       case .success(let data):
@@ -736,11 +737,11 @@ struct Settings {
 
   }
 
-  func resetAttributesForFaceting(
+  func resetFilterableAttributes(
     _ UID: String,
     _ completion: @escaping (Result<Update, Swift.Error>) -> Void) {
 
-    self.request.delete(api: "/indexes/\(UID)/settings/attributes-for-faceting") { result in
+    self.request.delete(api: "/indexes/\(UID)/settings/filterable-attributes") { result in
 
       switch result {
       case .success(let data):

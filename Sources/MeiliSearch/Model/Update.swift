@@ -52,6 +52,7 @@ public struct Update: Codable, Equatable {
   public enum Status: Codable, Equatable {
 
     case enqueued
+    case processing
     case processed
     case failed
 
@@ -65,6 +66,8 @@ public struct Update: Codable, Equatable {
       switch rawStatus {
       case "enqueued":
         self = Status.enqueued
+      case "processing":
+        self = Status.processing
       case "processed":
         self = Status.processed
       case "failed":

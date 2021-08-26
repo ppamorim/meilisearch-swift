@@ -133,7 +133,8 @@ class SearchTests: XCTestCase {
 
     let searchParameters = SearchParameters(
       query: "botman",
-      facetFilters: [["genre:romance"], ["genre:action"]])
+      filter: "genre = romance OR genre = Science Fiction)"
+    )
 
     let expectation = XCTestExpectation(description: "Searching for botman")
 

@@ -401,7 +401,7 @@ public struct MeiliSearch {
    */
   public func getSetting(
     UID: String,
-    _ completion: @escaping (Result<Setting, Swift.Error>) -> Void) {
+    _ completion: @escaping (Result<SettingResult, Swift.Error>) -> Void) {
     self.settings.get(UID, completion)
   }
 
@@ -462,7 +462,7 @@ public struct MeiliSearch {
    */
   public func updateSynonyms(
     UID: String,
-    _ synonyms: [String: [String]],
+    _ synonyms: [String: [String]]?,
     _ completion: @escaping (Result<Update, Swift.Error>) -> Void) {
     self.settings.updateSynonyms(UID, synonyms, completion)
   }
@@ -508,7 +508,7 @@ public struct MeiliSearch {
    */
   public func updateStopWords(
     UID: String,
-    _ stopWords: [String],
+    _ stopWords: [String]?,
     _ completion: @escaping (Result<Update, Swift.Error>) -> Void) {
     self.settings.updateStopWords(UID, stopWords, completion)
   }
@@ -720,7 +720,7 @@ public struct MeiliSearch {
     self.settings.resetDisplayedAttributes(UID, completion)
   }
 
-  // MARK: Attributes for faceting
+  // MARK: Filterable attributes
 
   /**
    Get the attributes selected to be faceted of an `Index`.
@@ -730,10 +730,10 @@ public struct MeiliSearch {
    completes the query request, it returns a `Result` object that contains an `[String]`
    value if the request was successful, or `Error` if a failure occurred.
    */
-  public func getAttributesForFaceting(
+  public func getFilterableAttributes(
     UID: String,
     _ completion: @escaping (Result<[String], Swift.Error>) -> Void) {
-    self.settings.getAttributesForFaceting(UID, completion)
+    self.settings.getFilterableAttributes(UID, completion)
   }
 
   /**
@@ -745,11 +745,11 @@ public struct MeiliSearch {
    completes the query request, it returns a `Result` object that contains `Update`
    value if the request was successful, or `Error` if a failure occurred.
    */
-  public func updateAttributesForFaceting(
+  public func updateFilterableAttributes(
     UID: String,
     _ attributes: [String],
     _ completion: @escaping (Result<Update, Swift.Error>) -> Void) {
-    self.settings.updateAttributesForFaceting(UID, attributes, completion)
+    self.settings.updateFilterableAttributes(UID, attributes, completion)
   }
 
   /**
@@ -760,10 +760,10 @@ public struct MeiliSearch {
    completes the query request, it returns a `Result` object that contains `Update`
    value if the request was successful, or `Error` if a failure occurred.
    */
-  public func resetAttributesForFaceting(
+  public func resetFilterableAttributes(
     UID: String,
     _ completion: @escaping (Result<Update, Swift.Error>) -> Void) {
-    self.settings.resetAttributesForFaceting(UID, completion)
+    self.settings.resetFilterableAttributes(UID, completion)
   }
 
   // MARK: Stats

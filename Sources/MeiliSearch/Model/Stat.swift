@@ -32,6 +32,6 @@ public struct Stat: Codable, Equatable {
   public let isIndexing: Bool
 
   /// Usage frequency for each Index field.
-  public let fieldsFrequency: [String: Int]
+  public let fieldDistribution: [String: Int]
 
 }

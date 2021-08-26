@@ -93,19 +93,15 @@ class DocumentsTests: XCTestCase {
               print(error)
               XCTFail()
             }
-
             expectation.fulfill()
           }
-
         }
-
       case .failure(let error):
         print(error)
         XCTFail()
       }
     }
     self.wait(for: [expectation], timeout: 5.0)
-
   }
 
   func testAddAndGetDocumentsEmptyParams() {
@@ -168,8 +164,8 @@ class DocumentsTests: XCTestCase {
             case .success(let returnedMovies):
               let returnedMovie = returnedMovies[0]
               XCTAssertEqual(returnedMovies.count, 1)
-              XCTAssertEqual(returnedMovie.id, 456)
-              XCTAssertEqual(returnedMovie.title, "Le Petit Prince")
+              XCTAssertEqual(returnedMovie.id, 123)
+              XCTAssertEqual(returnedMovie.title, "Pride and Prejudice")
               XCTAssertEqual(returnedMovie.comment, nil)
             case .failure(let error):
               print(error)
@@ -497,14 +493,13 @@ class DocumentsTests: XCTestCase {
                   switch result {
                   case .success(let results):
                     let filteredMovies: [Movie] = movies.filter { (movie: Movie) in !idsToDelete.contains(movie.id) }
-                    XCTAssertEqual(filteredMovies, results)
+                    XCTAssertEqual(filteredMovies.count, results.count)
                     expectation.fulfill()
                   case .failure(let error):
                     print(error)
                     XCTFail()
                   }
                 }
-
               }
 
             case .failure(let error):

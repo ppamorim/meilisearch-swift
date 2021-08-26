@@ -12,11 +12,10 @@ class SettingsTests: XCTestCase {
   private let json = """
     {
       "rankingRules": [
-        "typo",
         "words",
+        "typo",
         "proximity",
         "attribute",
-        "wordsPosition",
         "exactness",
         "desc(release_date)"
       ],
@@ -28,7 +27,8 @@ class SettingsTests: XCTestCase {
         "rank",
         "poster"
       ],
-      "stopWords": null,
+      "filterableAttributes": [],
+      "stopWords": [],
       "synonyms": {
         "wolverine": ["xmen", "logan"],
         "logan": ["wolverine", "xmen"]
@@ -45,19 +45,18 @@ class SettingsTests: XCTestCase {
 
   func testShouldInstantiateFromEmptyData() {
     let stubSetting: Setting = buildStubSetting(from: "{}")
-
     XCTAssertTrue(stubSetting.rankingRules.isEmpty)
     XCTAssertEqual(stubSetting.searchableAttributes, ["*"])
     XCTAssertEqual(stubSetting.displayedAttributes, ["*"])
-    XCTAssertTrue(stubSetting.stopWords.isEmpty)
-    XCTAssertTrue(stubSetting.synonyms.isEmpty)
+    XCTAssertEqual(stubSetting.stopWords, [])
+    XCTAssertEqual(stubSetting.synonyms, [String: [String]]())
   }
 
   func testGetSetting() {
 
     // Prepare the mock server
 
-    let stubSetting: Setting = buildStubSetting(from: json)
+    let stubSetting: SettingResult = buildStubSettingResult(from: json)
 
     session.pushData(json)
 
@@ -393,11 +392,10 @@ class SettingsTests: XCTestCase {
 
     let jsonString = """
       [
-        "typo",
         "words",
+        "typo",
         "proximity",
         "attribute",
-        "wordsPosition",
         "exactness",
         "desc(release_date)"
       ]
@@ -837,9 +835,9 @@ class SettingsTests: XCTestCase {
 
   }
 
-  // MARK: Attributes for faceting
+  // MARK: Filterable Attributes
 
-  func testGetAttributesForFaceting() {
+  func testGetFilterableAttributes() {
 
     // Prepare the mock server
 
@@ -855,10 +853,10 @@ class SettingsTests: XCTestCase {
 
     let expectation = XCTestExpectation(description: "Get displayed attribute")
 
-    self.client.getAttributesForFaceting(UID: UID) { result in
+    self.client.getFilterableAttributes(UID: UID) { result in
       switch result {
-      case .success(let attributesForFaceting):
-        XCTAssertFalse(attributesForFaceting.isEmpty)
+      case .success(let filterableAttributes):
+        XCTAssertFalse(filterableAttributes.isEmpty)
         expectation.fulfill()
       case .failure:
         XCTFail("Failed to get displayed attribute")
@@ -869,7 +867,7 @@ class SettingsTests: XCTestCase {
 
   }
 
-  func testUpdateAttributesForFaceting() {
+  func testUpdateFilterableAttributes() {
 
     // Prepare the mock server
 
@@ -891,7 +889,7 @@ class SettingsTests: XCTestCase {
 
     let expectation = XCTestExpectation(description: "Update displayed attribute")
 
-    self.client.updateAttributesForFaceting(UID: UID, attributes) { result in
+    self.client.updateFilterableAttributes(UID: UID, attributes) { result in
       switch result {
       case .success(let update):
         XCTAssertEqual(stubUpdate, update)
@@ -905,7 +903,7 @@ class SettingsTests: XCTestCase {
 
   }
 
-  func testResetAttributesForFaceting() {
+  func testResetFilterableAttributes() {
 
     // Prepare the mock server
 
@@ -926,7 +924,7 @@ class SettingsTests: XCTestCase {
 
     let expectation = XCTestExpectation(description: "Update displayed attribute")
 
-    self.client.resetAttributesForFaceting(UID: UID) { result in
+    self.client.resetFilterableAttributes(UID: UID) { result in
       switch result {
       case .success(let update):
         XCTAssertEqual(stubUpdate, update)
@@ -944,6 +942,12 @@ class SettingsTests: XCTestCase {
     let data = json.data(using: .utf8)!
     let decoder: JSONDecoder = JSONDecoder()
     return try! decoder.decode(Setting.self, from: data)
+  }
+
+  private func buildStubSettingResult(from json: String) -> SettingResult {
+    let data = json.data(using: .utf8)!
+    let decoder: JSONDecoder = JSONDecoder()
+    return try! decoder.decode(SettingResult.self, from: data)
   }
 
   static var allTests = [
@@ -969,9 +973,9 @@ class SettingsTests: XCTestCase {
     ("testGetDisplayedAttributes", testGetDisplayedAttributes),
     ("testUpdateDisplayedAttributes", testUpdateDisplayedAttributes),
     ("testResetDisplayedAttributes", testResetDisplayedAttributes),
-    ("testGetAttributesForFaceting", testGetAttributesForFaceting),
-    ("testUpdateAttributesForFaceting", testUpdateAttributesForFaceting),
-    ("testResetAttributesForFaceting", testResetAttributesForFaceting)
+    ("testGetFilterableAttributes", testGetFilterableAttributes),
+    ("testUpdateFilterableAttributes", testUpdateFilterableAttributes),
+    ("testResetFilterableAttributes", testResetFilterableAttributes)
   ]
 
 }

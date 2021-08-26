@@ -16,15 +16,22 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
     steps:
-      - uses: actions/checkout@v2
-      - name: Download and run MeiliSearch
+      - name: Grep latest version of MeiliSearch
         run: |
-           brew update
-           brew install meilisearch
+          curl -H "Authorization:  ${{ secrets.API_GITHUB_TOKEN_SWIFT }}" -s 'https://api.github.com/repos/meilisearch/MeiliSearch/releases' | \
+          grep -E 'tag_name' | grep 'v0' | head -1 \
+          | tr -d ',"' | cut -d ':' -f2 | tr -d ' ' > temp_file
+          cat temp_file
+          echo "MEILISEARCH_LATEST=$(cat temp_file)" >> $GITHUB_ENV
+      - name: Download MeiliSearch
+        run: |
+          curl https://github.com/meilisearch/MeiliSearch/releases/download/${{ env.MEILISEARCH_LATEST }}/meilisearch-macos-amd64 --output meilisearch --location
+          chmod +x meilisearch
       - name: Run MeiliSearch
-        run: meilisearch --no-analytics=true --master-key=masterKey &
+        run: |
+          ./meilisearch --master-key=masterKey --no-analytics true &
       - name: Run tests
-        run: swift test -v
+        run: swift test
 
   linter:
     name: linter-check

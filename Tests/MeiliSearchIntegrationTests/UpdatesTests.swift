@@ -2,7 +2,6 @@
 import XCTest
 import Foundation
 
-// swiftlint:disable force_unwrapping
 // swiftlint:disable force_try
 private struct Movie: Codable, Equatable {
 
@@ -72,7 +71,6 @@ class UpdatesTests: XCTestCase {
           switch result {
           case .success(let update):
             XCTAssertEqual("DocumentsAddition", update.type.name)
-            XCTAssertTrue(update.type.number! >= 0)
           case .failure(let error):
             print(error)
             XCTFail()
@@ -108,7 +106,6 @@ class UpdatesTests: XCTestCase {
       case .success(let updates):
         updates.forEach { (update: Update.Result) in
           XCTAssertEqual("DocumentsAddition", update.type.name)
-          XCTAssertTrue(update.type.number! >= 0)
         }
 
       case .failure(let error):

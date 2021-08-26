@@ -30,11 +30,8 @@ public struct SearchParameters: Codable, Equatable {
   /// Which attributes to highlight.
   public let attributesToHighlight: [String]?
 
-  /// Attribute with an exact match.
-  public let filters: String?
-
-  /// Select which attribute has to be filtered, useful when you need to narrow down the results of the filter.
-  public let facetFilters: [[String]]?
+  /// Filter on attributes values.
+  public let filter: String?
 
   /// Retrieve the count of matching terms for each facets.
   public let facetsDistribution: [String]?
@@ -52,8 +49,7 @@ public struct SearchParameters: Codable, Equatable {
     attributesToCrop: [String]? = nil,
     cropLength: Int? = nil,
     attributesToHighlight: [String]? = nil,
-    filters: String? = nil,
-    facetFilters: [[String]]? = nil,
+    filter: String? = nil,
     facetsDistribution: [String]? = nil,
     matches: Bool? = false) {
     self.query = query
@@ -63,8 +59,7 @@ public struct SearchParameters: Codable, Equatable {
     self.attributesToCrop = attributesToCrop
     self.cropLength = cropLength
     self.attributesToHighlight = attributesToHighlight
-    self.filters = filters
-    self.facetFilters = facetFilters
+    self.filter = filter
     self.facetsDistribution = facetsDistribution
     self.matches = matches
   }
@@ -74,7 +69,7 @@ public struct SearchParameters: Codable, Equatable {
   /**
    Minimal static function used to easily initialize the `SearchParameters` instance with
    the search query applied.
-   
+
    - parameter value: Query string (mandatory).
    */
   public static func query(_ value: String) -> SearchParameters {
@@ -91,8 +86,7 @@ public struct SearchParameters: Codable, Equatable {
     case attributesToCrop
     case cropLength
     case attributesToHighlight
-    case filters
-    case facetFilters
+    case filter
     case facetsDistribution
     case matches
   }

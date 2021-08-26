@@ -163,11 +163,10 @@ get_settings_1: |-
   }
 update_settings_1: |-
   let settings = Setting(rankingRules: [
-      "typo",
       "words",
+      "typo",
       "proximity",
       "attribute",
-      "wordsPosition",
       "exactness",
       "desc(release_date)",
       "desc(rank)"
@@ -281,11 +280,10 @@ get_ranking_rules_1: |-
   }
 update_ranking_rules_1: |-
   let rankingRules: [String] = [
-      "typo",
       "words",
+      "typo",
       "proximity",
       "attribute",
-      "wordsPosition",
       "exactness",
       "asc(release_date)",
       "desc(rank)"
@@ -509,7 +507,7 @@ field_properties_guide_displayed_1: |-
 filtering_guide_1: |-
   let searchParameters = SearchParameters(
       query: "Avengers",
-      filters: "release_date > 795484800")
+      filter: "release_date > 795484800")
   client.search(UID: "movies", searchParameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
       switch result {
       case .success(let searchResult):
@@ -521,7 +519,7 @@ filtering_guide_1: |-
 filtering_guide_2: |-
   let searchParameters = SearchParameters(
       query: "Batman",
-      filters: "release_date > 795484800 AND (director = \"Tim Burton\" OR director = \"Christopher Nolan\"")
+      filter: "release_date > 795484800 AND (director = \"Tim Burton\" OR director = \"Christopher Nolan\"")
   client.search(UID: "movies", searchParameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
       switch result {
       case .success(let searchResult):
@@ -533,7 +531,7 @@ filtering_guide_2: |-
 filtering_guide_3: |-
   let searchParameters = SearchParameters(
       query: "horror",
-      filters: "director = \"Jordan Peele\"")
+      filter: "director = \"Jordan Peele\"")
   client.search(UID: "movies", searchParameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
       switch result {
       case .success(let searchResult):
@@ -545,7 +543,7 @@ filtering_guide_3: |-
 filtering_guide_4: |-
   let searchParameters = SearchParameters(
       query: "Planet of the Apes",
-      filters: "rating >= 3 AND (NOT director = \"Tim Burton\"")
+      filter: "rating >= 3 AND (NOT director = \"Tim Burton\"")
   client.search(UID: "movies", searchParameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
       switch result {
       case .success(let searchResult):
@@ -614,7 +612,7 @@ search_parameter_guide_crop_1: |-
   }
 search_parameter_guide_highlight_1: |-
   let searchParameters = SearchParameters(
-      query: "shifu",
+      query: "winter feast",
       attributesToHighlight: ["overview"])
   client.search(UID: "movies", searchParameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
       switch result {
@@ -627,7 +625,7 @@ search_parameter_guide_highlight_1: |-
 search_parameter_guide_filter_1: |-
   let searchParameters = SearchParameters(
       query: "n",
-      filters: "title = Nightshift")
+      filter: "title = Nightshift")
   client.search(UID: "movies", searchParameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
       switch result {
       case .success(let searchResult):
@@ -639,7 +637,7 @@ search_parameter_guide_filter_1: |-
 search_parameter_guide_filter_2: |-
   let searchParameters = SearchParameters(
       query: "n",
-      filters: "title=\"Kung Fu Panda\"")
+      filter: "title=\"Kung Fu Panda\"")
   client.search(UID: "movies", searchParameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
       switch result {
       case .success(let searchResult):
@@ -650,9 +648,7 @@ search_parameter_guide_filter_2: |-
   }
 search_parameter_guide_matches_1: |-
   let searchParameters = SearchParameters(
-      query: "n",
-      filters: "title=\"Kung Fu Panda\"",
-      attributesToHighlight: ["overview"],
+      query: "winter feast",
       matches: true)
   client.search(UID: "movies", searchParameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
       switch result {
@@ -678,11 +674,10 @@ settings_guide_stop_words_1: |-
   }
 settings_guide_ranking_rules_1: |-
   let rankingRules: [String] = [
-      "typo",
       "words",
+      "typo",
       "proximity",
       "attribute",
-      "wordsPosition",
       "exactness",
       "asc(release_date)",
       "desc(rank)"
@@ -790,7 +785,7 @@ search_guide_1: |-
 search_guide_2: |-
   let parameters = SearchParameters(
       query: "Avengers",
-      filters: "release_date > 795484800")
+      filter: "release_date > 795484800")
   client.search(UID: "movies", parameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
       switch result {
       case .success(let searchResult):
@@ -858,8 +853,8 @@ getting_started_search_md: |-
         }
     }
   ```
-get_attributes_for_faceting_1: |-
-  client.getAttributesForFaceting(UID: "movies") { (result: Result<[String], Swift.Error>) in
+get_filterable_attributes_1: |-
+  client.getFilterableAttributes(UID: "movies") { (result: Result<[String], Swift.Error>) in
       switch result {
       case .success(let attributes):
           print(attributes)
@@ -867,8 +862,8 @@ get_attributes_for_faceting_1: |-
           print(error)
       }
   }
-update_attributes_for_faceting_1: |-
-  client.updateAttributesForFaceting(UID: "movies", ["genre", "director"]) { (result: Result<Update, Swift.Error>) in
+update_filterable_attributes_1: |-
+  client.updateFilterableAttributes(UID: "movies", ["genre", "director"]) { (result: Result<Update, Swift.Error>) in
       switch result {
       case .success(let update):
           print(update)
@@ -876,8 +871,8 @@ update_attributes_for_faceting_1: |-
           print(error)
       }
   }
-reset_attributes_for_faceting_1: |-
-  client.resetAttributesForFaceting(UID: "movies") { (result: Result<Update, Swift.Error>) in
+reset_filterable_attributes_1: |-
+  client.resetFilterableAttributes(UID: "movies") { (result: Result<Update, Swift.Error>) in
       switch result {
       case .success(let attributes):
           print(attributes)
@@ -886,7 +881,7 @@ reset_attributes_for_faceting_1: |-
       }
   }
 faceted_search_update_settings_1: |-
-  client.updateAttributesForFaceting(UID: "movies", ["genre", "director"]) { (result: Result<Update, Swift.Error>) in
+  client.updateFilterableAttributes(UID: "movies", ["genre", "director"]) { (result: Result<Update, Swift.Error>) in
       switch result {
       case .success(let update):
           print(update)
@@ -894,10 +889,10 @@ faceted_search_update_settings_1: |-
           print(error)
       }
   }
-faceted_search_facet_filters_1: |-
+faceted_search_filter_1: |-
   let searchParameters = SearchParameters(
       query: "thriller",
-      facetFilters: [["genres:Horror", "genres:Mystery"], ["director:Jordan Peele"]])
+      filter: [["genres = Horror", "genres = Mystery"], ["director = \"Jordan Peele\""]])
   client.search(UID: "movies", searchParameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
       switch result {
       case .success(let searchResult):
@@ -918,8 +913,8 @@ faceted_search_facets_distribution_1: |-
           print(error)
       }
   }
-faceted_search_walkthrough_attributes_for_faceting_1: |-
-  client.updateAttributesForFaceting(UID: "movies", [
+faceted_search_walkthrough_filterable_attributes_1: |-
+  client.updateFilterableAttributes(UID: "movies", [
       "director",
       "producer",
       "genres",
@@ -931,10 +926,10 @@ faceted_search_walkthrough_attributes_for_faceting_1: |-
         print(error)
     }
   }
-faceted_search_walkthrough_facet_filters_1: |-
+faceted_search_walkthrough_filter_1: |-
   let searchParameters = SearchParameters(
       query: "thriller",
-      facetFilters: [["genres:Horror", "genres:Mystery"], ["director:Jordan Peele"]])
+      filter: [["genres = Horror", "genres = Mystery"], ["director = \"Jordan Peele\""]])
   client.search(UID: "movies", searchParameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
       switch result {
       case .success(let searchResult):
@@ -947,6 +942,18 @@ faceted_search_walkthrough_facets_distribution_1: |-
   let searchParameters = SearchParameters(
       query: "Batman",
       facetsDistribution: ["genres"])
+  client.search(UID: "movies", searchParameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
+      switch result {
+      case .success(let searchResult):
+          print(searchResult)
+      case .failure(let error):
+          print(error)
+      }
+  }
+
+phrase_search_1: |-
+  let searchParameters = SearchParameters(
+      query: "\"african american\" horror")
   client.search(UID: "movies", searchParameters) { (result: Result<SearchResult<Movie>, Swift.Error>) in
       switch result {
       case .success(let searchResult):
