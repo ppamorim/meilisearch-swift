@@ -1,4 +1,6 @@
 import Foundation
+import MeiliSearchCore
+
 #if canImport(FoundationNetworking)
   import FoundationNetworking
 #endif
@@ -1114,20 +1116,5 @@ public struct Indexes {
   public func stats(
     _ completion: @escaping (Result<Stat, Swift.Error>) -> Void) {
     self.stats.stats(self.uid, completion)
-  }
-
-  // MARK: Codable
-
-  struct UpdateIndexPayload: Codable {
-    let primaryKey: String
-  }
-
-  struct CreateIndexPayload: Codable {
-    let uid: String
-    let primaryKey: String?
-  }
-
-  public struct SwapIndexPayload: Codable, Equatable {
-    public let indexes: [String]
   }
 }

@@ -1,4 +1,6 @@
 import Foundation
+import MeiliSearchCore
+
 /**
  `TasksQuery` class represent the options used to filter a get tasks call.
  */

@@ -4,6 +4,7 @@ import Foundation
 #endif
 import XCTest
 @testable import MeiliSearch
+@testable import MeiliSearchCore
 
 public let TESTS_TIME_OUT = 10.0
 

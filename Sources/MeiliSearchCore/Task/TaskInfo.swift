@@ -23,10 +23,4 @@ public struct TaskInfo: Codable, Equatable {
   public enum CodingKeys: String, CodingKey {
     case taskUid, indexUid, status, type, enqueuedAt
   }
-
-  @discardableResult
-  @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-  public func wait(on client: MeiliSearch, options: WaitOptions? = nil) async throws -> Task {
-    try await client.waitForTask(task: self, options: options)
-  }
 }

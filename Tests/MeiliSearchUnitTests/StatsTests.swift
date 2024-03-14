@@ -1,4 +1,5 @@
 @testable import MeiliSearch
+@testable import MeiliSearchCore
 import XCTest
 
 class StatsTests: XCTestCase {

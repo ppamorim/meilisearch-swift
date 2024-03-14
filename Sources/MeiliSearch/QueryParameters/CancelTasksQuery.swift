@@ -1,4 +1,5 @@
 import Foundation
+import MeiliSearchCore
 
 /**
  `CancelTasksQuery` class represent the options used to filter a cancel tasks call.

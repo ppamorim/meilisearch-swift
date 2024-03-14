@@ -1,4 +1,6 @@
 import Foundation
+import MeiliSearchCore
+
 #if canImport(FoundationNetworking)
   import FoundationNetworking
 #endif

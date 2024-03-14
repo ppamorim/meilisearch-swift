@@ -1,6 +1,8 @@
 import Foundation
+import MeiliSearchCore
+
 #if canImport(FoundationNetworking)
-  import FoundationNetworking
+import FoundationNetworking
 #endif
 
 struct Search {

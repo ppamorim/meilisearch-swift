@@ -1,4 +1,6 @@
 import Foundation
+import MeiliSearchCore
+
 #if canImport(FoundationNetworking)
   import FoundationNetworking
 #endif
@@ -7,17 +9,7 @@ import Foundation
  Represent all error types in the client.
  */
 public extension MeiliSearch {
-  // MARK: Error
-  struct MSErrorResponse: Decodable, Encodable, Equatable {
-    /// A human-readable description of the error
-    public let message: String
-    /// The error code (https://www.meilisearch.com/docs/reference/errors/error_codes)
-    public let code: String
-    /// The error type (https://www.meilisearch.com/docs/reference/errors/overview#errors)
-    public let type: String
-    /// A link to the relevant section of the documentation
-    public let link: String?
-  }
+  typealias MSErrorResponse = ErrorResponse
 
   static func errorHandler(url: URL, data: Data?, response: URLResponse?, error: Swift.Error?) throws {
     // Communication Error with Meilisearch
@@ -36,7 +28,7 @@ public extension MeiliSearch {
     if let unwrappedData: Data = data, let res: MeiliSearch.MSErrorResponse = try? Constants.customJSONDecoder.decode(MeiliSearch.MSErrorResponse.self, from: unwrappedData) {
       throw MeiliSearch.Error.meiliSearchApiError(
         message: res.message,
-        msErrorResponse: MeiliSearch.MSErrorResponse(
+        msErrorResponse: MSErrorResponse(
           message: res.message,
           code: res.code,
           type: res.type,

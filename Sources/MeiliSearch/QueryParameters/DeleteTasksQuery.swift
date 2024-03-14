@@ -1,4 +1,5 @@
 import Foundation
+import MeiliSearchCore
 
 /**
  `DeleteTasksQuery` class represent the options used to filter a delete tasks call.

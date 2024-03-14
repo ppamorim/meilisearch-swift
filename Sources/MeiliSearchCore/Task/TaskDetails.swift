@@ -83,7 +83,7 @@ public extension Task {
 
   struct TaskIndexSwapDetails: Decodable, Equatable {
     /// Object containing the payload for the indexSwap task
-    public let swaps: [Indexes.SwapIndexPayload]
+    public let swaps: [SwapIndexPayload]
   }
 
   struct TaskCancellationDetails: Decodable, Equatable {

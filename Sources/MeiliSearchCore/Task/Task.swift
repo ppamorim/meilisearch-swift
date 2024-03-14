@@ -36,7 +36,7 @@ public struct Task: Decodable, Equatable {
   public let canceledBy: Int?
 
   /// Error information in case of failed update.
-  public let error: MeiliSearch.MSErrorResponse?
+  public let error: ErrorResponse?
 
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -51,7 +51,7 @@ public struct Task: Decodable, Equatable {
     self.startedAt = try container.decodeIfPresent(Date.self, forKey: .startedAt)
     self.finishedAt = try container.decodeIfPresent(Date.self, forKey: .finishedAt)
     self.canceledBy = try container.decodeIfPresent(Int.self, forKey: .canceledBy)
-    self.error = try container.decodeIfPresent(MeiliSearch.MSErrorResponse.self, forKey: .error)
+    self.error = try container.decodeIfPresent(ErrorResponse.self, forKey: .error)
 
     // we ignore errors thrown by `superDecoder` to handle cases where no details are provided by the API
     // for example when the type is `snapshotCreation`.

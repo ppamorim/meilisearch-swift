@@ -4,6 +4,7 @@ import Foundation
 #endif
 import XCTest
 @testable import MeiliSearch
+@testable import MeiliSearchCore
 
 private let movies: [Movie] = [
   Movie(id: 123, title: "Pride and Prejudice", comment: "A great book"),

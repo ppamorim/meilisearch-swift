@@ -1,6 +1,8 @@
 import Foundation
+import MeiliSearchCore
+
 #if canImport(FoundationNetworking)
-  import FoundationNetworking
+import FoundationNetworking
 #endif
 
 /**
@@ -151,8 +153,8 @@ public struct MeiliSearch {
   public func waitForTask(
     taskUid: Int,
     options: WaitOptions? = nil,
-    _ completion: @escaping (Result<Task, Swift.Error>
-  ) -> Void) {
+    _ completion: @escaping (Result<Task, Swift.Error>) -> Void
+  ) {
     self.tasks.waitForTask(taskUid: taskUid, options: options, completion)
   }
 
@@ -169,8 +171,8 @@ public struct MeiliSearch {
   public func waitForTask(
     task: TaskInfo,
     options: WaitOptions? = nil,
-    _ completion: @escaping (Result<Task, Swift.Error>
-  ) -> Void) {
+    _ completion: @escaping (Result<Task, Swift.Error>) -> Void
+  ) {
     self.tasks.waitForTask(taskUid: task.taskUid, options: options, completion)
   }
 
@@ -380,5 +382,13 @@ public struct MeiliSearch {
    */
   public func createDump(_ completion: @escaping (Result<TaskInfo, Swift.Error>) -> Void) {
     self.dumps.create(completion)
+  }
+}
+
+extension TaskInfo {
+  @discardableResult
+  @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+  public func wait(on client: MeiliSearch, options: WaitOptions? = nil) async throws -> Task {
+    try await client.waitForTask(task: self, options: options)
   }
 }
